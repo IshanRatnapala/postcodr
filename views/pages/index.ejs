@@ -9,28 +9,29 @@
 <div class="container home">
     <div class="row">
         <div class="col-xs-12 text-center">
-            <h1 class="text-uppercase">INDEX (only sri lanka)</h1>
-
-            <p class="sub-heading">
-                subheading
-            </p>
+            <h1 class="text-uppercase huge">POSTCODES</h1>
+            <h2 class="text-uppercase semi-huge">SRI LANKA</h2>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3 page-content">
+        <div class="col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3 page-content">
             <div class="row">
 
-                <div class="form-group col-xs-12 select-country">
+                <div id="select-city" class="form-group col-xs-12 normal">
                     <label for="city-search">Pick City</label>
-                    <input id="city-search" autofocus="" type="text" placeholder="Pick City..." autocomplete="off">
+                    <input id="city-search" class="big" type="text" placeholder="<%- cities[0].placename %>" autocomplete="off" value="<%= query %>">
+                    <span class="bar"></span>
                 </div>
 
-                <div class="col-xs-12">
-                    <h1 id="postcode"></h1>
+                <div id="postcode-display" class="col-xs-12 small">
+                    <span class="postcode-description">The postcode for </span><span id="city-name"></span>
+                    <div id="postcode" class="huge"></div>
+                    <div id="error-message"></div>
                 </div>
 
                 <script>
+                    var countryCode = "<%= countryCode %>";
                     var cities = <%- JSON.stringify(cities) %>
                 </script>
 
