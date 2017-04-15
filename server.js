@@ -13,6 +13,10 @@ app.get('/', (req, res) => {
     res.redirect('/postcode/LK');
 });
 
+app.get('/test', (req, res) => {
+    res.send('test data')
+});
+
 app.get('/postcode/:countryCode', (req, res) => {
     var countryCode = req.params.countryCode.toUpperCase();
     DB_ACTIONS.getCities(countryCode)
