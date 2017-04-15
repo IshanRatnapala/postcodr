@@ -1,0 +1,14 @@
+/* Autocompletr */
+.suggestions-box {
+    overflow: auto;
+}
+.suggestions-box .suggestion {
+    cursor: pointer;
+    padding: 3px 0;
+}
+.suggestions-box .suggestion.selected {
+    background-color: #badaff;
+}
+.suggestions-box .suggestion:hover {
+    background-color: #e6eef5;
+}
