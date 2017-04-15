@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head', { title: 'Search Train Timetable' }) %>
+</head>
+<body>
+<%- include('../partials/header', {pageName: ''}) %>
+
+<div class="container home">
+    <div class="row">
+        <div class="col-xs-12 text-center">
+            <h1 class="text-uppercase">INDEX (only sri lanka)</h1>
+
+            <p class="sub-heading">
+                subheading
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3 page-content">
+            <div class="row">
+
+                <div class="form-group col-xs-12 select-country">
+                    <label for="city-search">Pick City</label>
+                    <input id="city-search" autofocus="" type="text" placeholder="Pick City..." autocomplete="off">
+                </div>
+
+                <div class="col-xs-12">
+                    <h1 id="postcode"></h1>
+                </div>
+
+                <script>
+                    var cities = <%- JSON.stringify(cities) %>
+                </script>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="sidebar col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3 padding-top">
+        <div class="padding-top">
+            <% include ../partials/ads %>
+        </div>
+    </div>
+
+</div>
+
+<% include ../partials/scripts %>
+</body>
+</html>
