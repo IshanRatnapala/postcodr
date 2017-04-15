@@ -19,6 +19,9 @@ label {
     padding-top: 15%;
     display: none;
 }
+#error-container {
+    padding-top: 15%;
+}
 #city-name {
     font-style: italic;
 }
@@ -26,7 +29,7 @@ label {
     padding: 5px;
 }
 
-/* form starting stylings ------------------------------- */
+/* INPUT */
 input {
     padding: 10px 10px 10px 5px;
     display: block;
@@ -34,12 +37,7 @@ input {
     border: none;
     border-bottom: 1px solid #757575;
 }
-
-input:focus {
-    outline: none;
-}
-
-/* BOTTOM BARS ================================= */
+input:focus { outline: none; }
 .bar {
     position: relative;
     display: block;
@@ -57,17 +55,11 @@ input:focus {
     -moz-transition: 0.2s ease all;
     -webkit-transition: 0.2s ease all;
 }
-.bar:before {
-    left: 50%;
-}
-.bar:after {
-    right: 50%;
-}
-/* active state */
-input:focus ~ .bar:before, input:focus ~ .bar:after {
-    width: 50%;
-}
+.bar:before { left: 50%; }
+.bar:after { right: 50%; }
+input:focus ~ .bar:before, input:focus ~ .bar:after { width: 50%; }
 
+/* PLACEHOLDER */
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
     color: #d7d3d7;
 }
@@ -100,10 +92,13 @@ input:focus ~ .bar:before, input:focus ~ .bar:after {
 @media only screen and (min-device-width: 375px) and (orientation: landscape){
     .semi-huge { font-size: 1.5em; }
     #select-city {
-        padding-top: 4%;
+        padding-top: 0;
     }
     #postcode-display {
         padding-top: 4%;
+    }
+    #error-container {
+        padding-top: 0;
     }
 }
 @media only screen and (min-device-width: 768px) {
@@ -117,29 +112,5 @@ input:focus ~ .bar:before, input:focus ~ .bar:after {
     #select-city {
         padding-top: 20%;
     }
-    #postcode-display {
-        padding-top: 15%;
-    }
 }
 
-
-
-
-
-
-
-
-/* Autocompletr */
-.suggestions-box {
-    overflow: auto;
-}
-.suggestions-box .suggestion {
-    cursor: pointer;
-    padding: 3px 0;
-}
-.suggestions-box .suggestion.selected {
-    background-color: #a4d1ff;
-}
-.suggestions-box .suggestion:hover {
-    background-color: #dbf1ff;
-}
