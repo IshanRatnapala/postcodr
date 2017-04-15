@@ -1,0 +1,19 @@
+html,body {
+    font-family: 'Work Sans', sans-serif;
+}
+h1,h2,h3 {
+    font-family: 'Lato', sans-serif;
+}
+select.selectpicker {
+    display: block !important;
+}
+
+
+
+/* Autocompletr */
+.suggestions-box .suggestion.selected {
+    background-color: #a4d1ff;
+}
+.suggestions-box {
+    overflow: auto;
+}
