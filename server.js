@@ -8,14 +8,19 @@ const DB_ACTIONS = require('./db');
 app.set('view-engine', 'ejs');
 app.use(express.static(__dirname + '/public', { maxAge: '5d' }));
 
-app.get('/', (req, res) => {
-    let countryCode = 'LK';
-    //send the cities for the countries
 
+app.get('/', (req, res) => {
+    res.redirect('/postcode/LK');
+});
+
+app.get('/postcode/:countryCode', (req, res) => {
+    var countryCode = req.params.countryCode.toUpperCase();
     DB_ACTIONS.getCities(countryCode)
         .then((data) => {
             res.render('pages/index.ejs', {
-                cities: data
+                countryCode: countryCode.toLowerCase(),
+                cities: data,
+                query: ''
             });
         })
         .catch((err) => {
@@ -24,22 +29,18 @@ app.get('/', (req, res) => {
 });
 
 app.get('/postcode/:countryCode/:city', (req, res) => {
-    // res.send('Postcode information for ' + req.params.city);
-    DB_ACTIONS.findByCity(req.params.countryCode.toUpperCase(), _.startCase(req.params.city));
-    DB_ACTIONS.findByPostcode(req.params.countryCode.toUpperCase(), '10290');
-
-    res.render('pages/detail.ejs');
-});
-
-app.get('/ajax/:countryCode', (req, res) => {
-    DB_ACTIONS.getCities(req.params.countryCode)
+    var countryCode = req.params.countryCode.toUpperCase();
+    DB_ACTIONS.getCities(countryCode)
         .then((data) => {
-            res.json(data);
+            res.render('pages/index.ejs', {
+                countryCode: countryCode.toLowerCase(),
+                cities: data,
+                query: req.params.city.toLowerCase()
+            });
         })
         .catch((err) => {
             throw err;
         });
-
 
 });
 
