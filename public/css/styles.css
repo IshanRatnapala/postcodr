@@ -1,19 +1,145 @@
-html,body {
-    font-family: 'Work Sans', sans-serif;
-}
-h1,h2,h3 {
+html, body, input {
     font-family: 'Lato', sans-serif;
+    text-align: center;
 }
-select.selectpicker {
-    display: block !important;
+h1, h2, h3 {
+    font-family: 'Lato', sans-serif;
+    text-align: left;
+    margin: 0;
 }
+
+label {
+    visibility: hidden;
+}
+
+#select-city {
+    padding-top: 15%;
+}
+#postcode-display {
+    padding-top: 15%;
+    display: none;
+}
+#city-name {
+    font-style: italic;
+}
+#postcode {
+    padding: 5px;
+}
+
+/* form starting stylings ------------------------------- */
+input {
+    padding: 10px 10px 10px 5px;
+    display: block;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #757575;
+}
+
+input:focus {
+    outline: none;
+}
+
+/* BOTTOM BARS ================================= */
+.bar {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 2px;
+}
+.bar:before, .bar:after {
+    content: '';
+    height: 2px;
+    width: 0;
+    bottom: 1px;
+    position: absolute;
+    background: #5264AE;
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+}
+.bar:before {
+    left: 50%;
+}
+.bar:after {
+    right: 50%;
+}
+/* active state */
+input:focus ~ .bar:before, input:focus ~ .bar:after {
+    width: 50%;
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: #d7d3d7;
+}
+::-moz-placeholder { /* Firefox 19+ */
+    color: #d7d3d7;
+}
+:-ms-input-placeholder { /* IE 10+ */
+    color: #d7d3d7;
+}
+:-moz-placeholder { /* Firefox 18- */
+    color: #d7d3d7;
+}
+
+
+.huge { font-size: 3em; }
+.semi-huge { font-size: 2.5em; }
+.big { font-size: 1.5em; }
+.normal { font-size: 1em; }
+.small { font-size: 0.9em; }
+.suggestion { font-size: 1em; }
+
+@media only screen and (min-device-width: 375px) {
+    .huge { font-size: 4em; }
+    .semi-huge { font-size: 3em; }
+    .big { font-size: 1.5em; }
+    .normal { font-size: 1.2em; }
+    .small { font-size: 1em; }
+    .suggestion { font-size: 1em; }
+}
+@media only screen and (min-device-width: 375px) and (orientation: landscape){
+    .semi-huge { font-size: 1.5em; }
+    #select-city {
+        padding-top: 4%;
+    }
+    #postcode-display {
+        padding-top: 4%;
+    }
+}
+@media only screen and (min-device-width: 768px) {
+    .huge { font-size: 4em; }
+    .semi-huge { font-size: 3em; }
+    .big { font-size: 2em; }
+    .normal { font-size: 1.5em; }
+    .small { font-size: 1.2em; }
+    .suggestion { font-size: 1em; }
+
+    #select-city {
+        padding-top: 20%;
+    }
+    #postcode-display {
+        padding-top: 15%;
+    }
+}
+
+
+
+
+
 
 
 
 /* Autocompletr */
+.suggestions-box {
+    overflow: auto;
+}
+.suggestions-box .suggestion {
+    cursor: pointer;
+    padding: 3px 0;
+}
 .suggestions-box .suggestion.selected {
     background-color: #a4d1ff;
 }
-.suggestions-box {
-    overflow: auto;
+.suggestions-box .suggestion:hover {
+    background-color: #dbf1ff;
 }
