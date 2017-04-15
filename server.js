@@ -4,6 +4,7 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 
 const DB_ACTIONS = require('./db');
+const production = require('./components/production')(app);
 
 app.set('view-engine', 'ejs');
 app.use(express.static(__dirname + '/public', { maxAge: '5d' }));
