@@ -13,9 +13,15 @@ function DB (action, query) {
 }
 
 module.exports = {
+    /* Example:
+     * DB_ACTIONS.findByCity(countryCode, _.startCase(req.params.city));
+     * */
     findByCity: (countryCode, city) => {
         return DB('get', `SELECT * FROM ${countryCode} WHERE placename="${city}"`);
     },
+    /* Example:
+     * DB_ACTIONS.findByPostcode(countryCode, '10290');
+     * */
     findByPostcode: (countryCode, postcode) => {
         return DB('get', `SELECT * FROM ${countryCode} WHERE postalcode="${postcode}"`);
     },
