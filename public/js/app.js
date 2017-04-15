@@ -52,7 +52,7 @@ $(function () {
             filterFromStart: true,
             autoComplete: true,
             dataName: 'placename',
-            minChars: 3,
+            minChars: 2,
             maxHeight: '205px',
         });
 
