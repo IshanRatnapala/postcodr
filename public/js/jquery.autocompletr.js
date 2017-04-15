@@ -8,7 +8,8 @@
         maxHeight: '300px',
         autoComplete: false,
         dataName: null,
-        minChars: 1
+        minChars: 1,
+        autofocus: false
     };
     var KEYS = {
         ESC: 27,
@@ -25,7 +26,7 @@
             return value.replace(/[|\\{}()[\]^$+*?.]/g, "\\$&");
         },
 
-        filter: function( obj, predicate) {
+        filter: function (obj, predicate) {
             var result = [];
             var key;
 
@@ -37,11 +38,11 @@
             return result;
         },
         includes: function (string, regexPattern) {
-            var pattern = new RegExp(utils.escapeRegExChars(regexPattern));
+            var pattern = new RegExp(regexPattern);
             return pattern.test(string);
         },
         getIndex: function (dataName) {
-            if (dataName){
+            if (dataName) {
                 return function (array, index) {
                     return array[index][dataName];
                 }
@@ -52,7 +53,6 @@
             }
         }
     };
-
 
     // The actual plugin constructor
     function Plugin (element, options) {
@@ -80,7 +80,15 @@
                 _this._onKeydown(event);
             });
 
-            $(this.element).on('focus._internal input._internal', function (event) {
+            $(this.element).on('focus._internal', function (event) {
+                /* Select value if there is a value ONLY if auto complete is enabled. */
+                if ($(this).val().trim().length && _this.settings.autocomplete) {
+                    this.select();
+                } else {
+                    _this._onChange(event);
+                }
+            });
+            $(this.element).on('input._internal', function (event) {
                 _this._onChange(event);
             });
 
@@ -90,12 +98,19 @@
                 }
             });
 
-            $(this.element).addClass(pluginName);
+            $(this.element)
+                .addClass(pluginName)
+                .trigger('init.autocompletr');
+
+            if (this.settings.autofocus) {
+                $(this.element).focus();
+            }
         },
 
         _onSuggestionClick: function (event) {
             console.log('sugdiv click');
-            this._selectSuggestion($(event.target).text());
+            this.selectedValue = $(event.target).text();
+            this._clearSuggestions();
         },
 
         _onChange: function (event) {
@@ -106,7 +121,7 @@
 
             var filteredCities = utils.filter(cities, function (item) {
                 var patternStart = _this.settings.filterFromStart ? '^' : '';
-                var pattern = patternStart + inputVal;
+                var pattern = patternStart + utils.escapeRegExChars(inputVal);
                 return utils.includes(item[_this.settings.dataName].toLowerCase(), pattern);
             });
 
@@ -122,6 +137,10 @@
             if (newSelected.length) {
                 newSelected.addClass('selected');
                 selectedSuggestion.removeClass('selected');
+
+                if (newSelected.parent()[0].getBoundingClientRect().top > newSelected[0].getBoundingClientRect().top) {
+                    newSelected[0].scrollIntoView(true);
+                }
             }
             this.selectedValue = this.suggestionsDiv.find('.selected').text();
         },
@@ -131,6 +150,11 @@
             if (newSelected.length) {
                 newSelected.addClass('selected');
                 selectedSuggestion.removeClass('selected');
+
+                if (newSelected.parent()[0].getBoundingClientRect().bottom < newSelected[0].getBoundingClientRect().bottom) {
+                    newSelected[0].scrollIntoView(false);
+                }
+
             }
             this.selectedValue = this.suggestionsDiv.find('.selected').text();
         },
@@ -141,11 +165,13 @@
                 newSelected = selectedSuggestion.prev();
                 if (!newSelected.length) {
                     newSelected = this.suggestionsDiv.find('.suggestion:last');
+                    newSelected[0].scrollIntoView(false);
                 }
             } else {
                 newSelected = selectedSuggestion.next();
                 if (!newSelected.length) {
                     newSelected = this.suggestionsDiv.find('.suggestion:first');
+                    newSelected[0].scrollIntoView(false);
                 }
             }
             if (selectedSuggestion.is(newSelected)) {
@@ -153,6 +179,7 @@
             } else {
                 selectedSuggestion.removeClass('selected');
                 newSelected.addClass('selected');
+                newSelected[0].scrollIntoView(false);
             }
             this.selectedValue = this.suggestionsDiv.find('.selected').text();
         },
@@ -192,7 +219,8 @@
                     this._clearSuggestions();
                     break;
 
-                default: return;
+                default:
+                    return;
             }
 
             event.preventDefault();
@@ -211,6 +239,15 @@
             var _this = this;
             var isFirst = true;
 
+            /* Return a array of <div> with the suggestions */
+            var suggestions = Object.keys(filteredArray).map(function (key, index) {
+                /* The first suggestion is selected by default. */
+                var _class = isFirst ? 'suggestion selected' : 'suggestion';
+                _this.selectedValue = isFirst ? _this.getDataAtIndex(filteredArray, index) : _this.selectedValue;
+                isFirst = false;
+                return '<div class="' + _class + ' empty">' + _this.getDataAtIndex(filteredArray, index) + '</div>';
+            });
+
             if (filteredArray.length === 1) {
                 /* If there's only one sugesstion and the input already has it's value - don't show suggestions. */
                 if (this.getDataAtIndex(filteredArray, 0).toLowerCase() === $(this.element).val().toLowerCase()) {
@@ -219,16 +256,11 @@
                 }
             }
 
-            /* Return a array of <div> with the suggestions */
-            var suggestions = Object.keys(filteredArray).map(function(key, index) {
-                /* The first suggestion is selected by default. */
-                var _class = isFirst ? 'suggestion selected' : 'suggestion';
-                _this.selectedValue = isFirst? _this.getDataAtIndex(filteredArray, index) : _this.selectedValue;
-                isFirst = false;
-                return '<div class="' + _class + '">' + _this.getDataAtIndex(filteredArray, index) + '</div>';
-            });
+            this.suggestionsDiv
+                .html(suggestions)
+                .removeClass('empty');
 
-            this.suggestionsDiv.html(suggestions)
+            this.suggestionsDiv.scrollTop(0);
         },
 
         _selectSuggestion: function (value) {
@@ -236,7 +268,9 @@
         },
 
         _clearSuggestions: function (clearOnBlur) {
-            this.suggestionsDiv.empty();
+            this.suggestionsDiv
+                .empty()
+                .addClass('empty');
 
             /* If auto complete is needed, */
             if (this.settings.autoComplete) {
