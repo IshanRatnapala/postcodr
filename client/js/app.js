@@ -2,22 +2,36 @@ $(function () {
     function setPostcode (pickedCity) {
         $('#error-container').hide();
         $('#city-name').text(pickedCity.placename);
+        $('#region-name').text(pickedCity.region);
         $('#postcode').text(pickedCity.postalcode);
         $('#postcode-display').show();
-        history.pushState(null, null, '/postcode/' + countryCode.toLowerCase() + '/' + pickedCity.placename.toLowerCase());
+        history.pushState(
+            null,
+            pickedCity.placename + ' | Sri Lanka Postal Codes',
+            '/postcode/' + countryCode.toLowerCase() + '/' + encodeURIComponent(pickedCity.placename.toLowerCase())
+        );
+        /* since pushstate is not supported everywhere */
+        document.title = pickedCity.placename.toUpperCase() + ' Postcode | Sri Lanka Postal Codes';
     }
 
     function clearPostcode () {
         $('#city-name').text('');
         $('#postcode').text('');
+        $('#region-name').text('');
         $('#postcode-display').hide();
-        history.pushState(null, null, '/postcode/' + countryCode.toLowerCase());
+        history.pushState(
+            null,
+            'Sri Lanka Postal Codes',
+            '/postcode/' + countryCode.toLowerCase()
+        );
+        /* since pushstate is not supported everywhere */
+        document.title = 'Sri Lanka Postal Codes';
     }
 
     $('#city-search')
-        .on('selected.autocompletr', function (event, data) {
-            var pickedCity = _.filter(cities, function (obj) {
-                return obj.placename === data;
+        .on('selected.autocompletr', function (event, selectedValue, dataSource) {
+            var pickedCity = _.filter(dataSource, function (obj) {
+                return obj.placename === selectedValue;
             });
             if (pickedCity.length) {
                 setPostcode(pickedCity[0]);
@@ -30,11 +44,11 @@ $(function () {
                 clearPostcode();
             }
         })
-        .on('init.autocompletr', function (event) {
+        .on('init.autocompletr', function (event, dataSource) {
             var inputValue = _.startCase($(this).val().trim());
             if (inputValue.length) {
                 $(this).val(inputValue);
-                var pickedCity = _.filter(cities, function (obj) {
+                var pickedCity = _.filter(dataSource, function (obj) {
                     return obj.placename === inputValue;
                 });
                 if (pickedCity[0]) {
@@ -48,6 +62,7 @@ $(function () {
             }
         })
         .autocompletr({
+            dataSource: '/ajax/' + countryCode,
             closeOnBlur: true,
             filterFromStart: true,
             autoComplete: true,

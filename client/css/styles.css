@@ -7,9 +7,16 @@ h1, h2, h3 {
     text-align: left;
     margin: 0;
 }
-
 label {
     visibility: hidden;
+}
+a, a:hover, a:focus {
+    color: inherit;
+    text-decoration: none;
+}
+
+.italic {
+    font-style: italic;
 }
 
 #select-city {
@@ -22,9 +29,6 @@ label {
 #error-container {
     padding-top: 15%;
     display: none;
-}
-#city-name {
-    font-style: italic;
 }
 #postcode {
     padding: 5px;
@@ -74,6 +78,15 @@ input:focus ~ .bar:before, input:focus ~ .bar:after { width: 50%; }
     color: #d7d3d7;
 }
 
+/* SELECTION */
+::selection { /* WebKit/Blink Browsers */
+    background: #000000;
+    color: #ffffff;
+}
+::-moz-selection {/* Gecko Browsers */
+    background: #000000;
+    color: #ffffff;
+}
 
 .huge { font-size: 3em; }
 .semi-huge { font-size: 2.5em; }
