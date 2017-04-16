@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /
+Sitemap: https://postcode.world/sitemap.xml
