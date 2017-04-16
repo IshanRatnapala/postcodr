@@ -3,6 +3,7 @@
 
     var pluginName = "autocompletr";
     var defaults = {
+        dataSource: null,
         closeOnBlur: true,
         filterFromStart: true,
         maxHeight: '300px',
@@ -25,7 +26,6 @@
         escapeRegExChars: function (value) {
             return value.replace(/[|\\{}()[\]^$+*?.]/g, "\\$&");
         },
-
         filter: function (obj, predicate) {
             var result = [];
             var key;
@@ -51,22 +51,55 @@
                     return array[index];
                 }
             }
+        },
+        getDataAtIndex: null,
+        getData: function (data) {
+            return new Promise(function (resolve, reject) {
+                if ($.isArray(data)) {
+                    // All good. return array.
+                    resolve(data);
+                } else {
+                    // Might be a url. Get data from ajax.
+                    $.ajax({
+                        url: data,
+                        dataType: 'json'
+                    }).done(function (data) {
+                        resolve(data)
+                    }).fail(function (err) {
+                        reject(err);
+                    })
+                }
+            });
         }
     };
 
     // The actual plugin constructor
     function Plugin (element, options) {
+        var _this = this;
         this.element = element;
         this.settings = $.extend({}, defaults, options);
-        this.init();
+
+        utils.getDataAtIndex = utils.getIndex(this.settings.dataName);
+
+        if (this.settings.dataSource) {
+            utils.getData(this.settings.dataSource)
+                .then(function (data) {
+                    _this._init(data);
+                })
+                .catch(function (err) {
+                    console.error(err);
+                });
+        } else {
+            console.warn('No data provided for Autocompletr.');
+        }
     }
 
     // Avoid Plugin.prototype conflicts
     $.extend(Plugin.prototype, {
-        init: function () {
+        _init: function (data) {
             var _this = this;
 
-            this.getDataAtIndex = utils.getIndex(this.settings.dataName);
+            this.DATA = data;
 
             this.suggestionsDiv = $('<div class="suggestions-box"></div>');
             this.suggestionsDiv.css('max-height', this.settings.maxHeight);
@@ -82,7 +115,7 @@
 
             $(this.element).on('focus._internal', function (event) {
                 /* Select value if there is a value ONLY if auto complete is enabled. */
-                if ($(this).val().trim().length && _this.settings.autocomplete) {
+                if ($(this).val().trim().length && _this.settings.autoComplete) {
                     this.select();
                 } else {
                     _this._onChange(event);
@@ -100,7 +133,7 @@
 
             $(this.element)
                 .addClass(pluginName)
-                .trigger('init.autocompletr');
+                .trigger('init.autocompletr', [this.DATA]);
 
             if (this.settings.autofocus) {
                 $(this.element).focus();
@@ -108,18 +141,16 @@
         },
 
         _onSuggestionClick: function (event) {
-            console.log('sugdiv click');
             this.selectedValue = $(event.target).text();
             this._clearSuggestions();
         },
 
         _onChange: function (event) {
-            console.log('city BOOM', event.type);
             var _this = this;
             var $input = $(this.element);
             var inputVal = $input.val().toLowerCase();
 
-            var filteredCities = utils.filter(cities, function (item) {
+            var filteredCities = utils.filter(this.DATA, function (item) {
                 var patternStart = _this.settings.filterFromStart ? '^' : '';
                 var pattern = patternStart + utils.escapeRegExChars(inputVal);
                 return utils.includes(item[_this.settings.dataName].toLowerCase(), pattern);
@@ -185,7 +216,6 @@
         },
 
         _onKeydown: function (event) {
-            console.log('city keydown', event.type);
             var selectedSuggestion = this.suggestionsDiv.find('.selected');
             switch (event.which) {
 
@@ -227,11 +257,10 @@
         },
 
         _onBlur: function () {
-            console.log('city blur');
             var _this = this;
             setTimeout(function () {
                 _this._clearSuggestions(true);
-                $(_this.element).trigger('blur.autocompletr', [_this.selectedValue]);
+                $(_this.element).trigger('blur.autocompletr', [_this.selectedValue, _this.DATA]);
             }, 100)
         },
 
@@ -243,14 +272,14 @@
             var suggestions = Object.keys(filteredArray).map(function (key, index) {
                 /* The first suggestion is selected by default. */
                 var _class = isFirst ? 'suggestion selected' : 'suggestion';
-                _this.selectedValue = isFirst ? _this.getDataAtIndex(filteredArray, index) : _this.selectedValue;
+                _this.selectedValue = isFirst ? utils.getDataAtIndex(filteredArray, index) : _this.selectedValue;
                 isFirst = false;
-                return '<div class="' + _class + ' empty">' + _this.getDataAtIndex(filteredArray, index) + '</div>';
+                return '<div class="' + _class + ' empty">' + utils.getDataAtIndex(filteredArray, index) + '</div>';
             });
 
             if (filteredArray.length === 1) {
                 /* If there's only one sugesstion and the input already has it's value - don't show suggestions. */
-                if (this.getDataAtIndex(filteredArray, 0).toLowerCase() === $(this.element).val().toLowerCase()) {
+                if (utils.getDataAtIndex(filteredArray, 0).toLowerCase() === $(this.element).val().toLowerCase()) {
                     this._clearSuggestions();
                     return;
                 }
@@ -288,16 +317,15 @@
         _autoComplete: function (force) {
             if (force || this.selectedValue) {
                 this._selectSuggestion(this.selectedValue);
-                $(this.element).trigger('selected.autocompletr', [this.selectedValue]);
+                $(this.element).trigger('selected.autocompletr', [this.selectedValue, this.DATA]);
             }
         }
     });
 
     $.fn[pluginName] = function (options) {
         return this.each(function () {
-            if (!$.data(this, "plugin_" + pluginName)) {
-                $.data(this, "plugin_" +
-                    pluginName, new Plugin(this, options));
+            if (!$.data(this, pluginName)) {
+                $.data(this, pluginName, new Plugin(this, options));
             }
         });
     };
