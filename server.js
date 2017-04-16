@@ -27,7 +27,11 @@ app.get('/postcode/:countryCode', (req, res) => {
             });
         })
         .catch((err) => {
-            throw err;
+            res.render('pages/404.ejs', {
+                countryCode: countryCode.toLowerCase(),
+                message: err,
+                city: ''
+            });
         });
 });
 
@@ -46,7 +50,11 @@ app.get('/postcode/:countryCode/:city', (req, res) => {
             });
         })
         .catch((err) => {
-            throw err;
+            res.render('pages/404.ejs', {
+                countryCode: countryCode.toLowerCase(),
+                message: err,
+                city: req.params.city
+            });
         });
 });
 
@@ -58,7 +66,7 @@ app.get('/ajax/:countryCode', (req, res) => {
             res.json(data);
         })
         .catch((err) => {
-            throw err;
+            res.send(err);
         });
 });
 

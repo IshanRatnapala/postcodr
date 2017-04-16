@@ -54,8 +54,7 @@ $(function () {
                 if (pickedCity[0]) {
                     setPostcode(pickedCity[0]);
                 } else {
-                    $('#error-message').text("Couldn't find city named \"" + inputValue + "\". Check spelling and try again.");
-                    $('#error-container').show();
+                    console.warn('Picked city does not exist!');
                 }
             } else {
                 $(this).focus();
@@ -67,7 +66,7 @@ $(function () {
             filterFromStart: true,
             autoComplete: true,
             dataName: 'placename',
-            minChars: 2,
+            minChars: 1,
             maxHeight: '205px',
         });
 

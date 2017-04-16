@@ -8,7 +8,12 @@ function DB (action, query) {
         db[action](query, (err, rows) => {
             if (err) reject(err);
 
-            resolve(rows);
+            if (rows) {
+                resolve(rows);
+            } else {
+                reject('Couldnt find anything with that name :(')
+            }
+
         })
     })
 }

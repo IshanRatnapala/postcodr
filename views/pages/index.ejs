@@ -30,16 +30,11 @@
                 </div>
 
                 <div id="postcode-display" class="col-xs-12 small">
-                    <span class="postcode-description">The postcode for </span>
+                    <div id="postcode" class="crazy-huge" itemprop="postalCode"><%= postcode %></div>
                     <span class="italic">
                         <span id="city-name" itemprop="addressLocality"><%= city %></span>,
                         <span id="region-name" itemprop="addressRegion"><%= region %></span>
                     </span>
-                    <div id="postcode" class="huge" itemprop="postalCode"><%= postcode %></div>
-                </div>
-                <div id="error-container" class="col-xs-12 normal">
-                    <div class="huge">:(</div>
-                    <div id="error-message"></div>
                 </div>
 
                 <script>

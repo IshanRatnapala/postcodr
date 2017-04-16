@@ -1,13 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%- include('../partials/head', {title: '404'}) %>
+    <%- include('../partials/head', { title: '404 | Sri Lanka Postal Codes' }) %>
 </head>
 <body>
 
-<div class="content">
-    <h1>404</h1>
+<div class="container error-page">
+
+    <div class="row">
+        <div>
+            <h1 class="text-uppercase huge">
+                <a href="/">POSTCODES</a>
+            </h1>
+            <h2 class="text-uppercase semi-huge">
+                <a href="/postcode/<%= countryCode %>">SRI LANKA</a>
+            </h2>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3 page-content">
+            <div id="error-container" class="col-xs-12 normal">
+                <div class="crazy-huge">¯\_(ツ)_/¯</div>
+                <div id="error-message">
+                    <% if (city !== '') { %>
+                        <p class="normal">Couldn't find city named "<%= city %>".</p>
+                    <% } else { %>
+                        <p class="normal">Hmm... Something went wrong.</p>
+                    <% } %>
+                    <p class="small"><a href="/">- Click here to go back -</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="sidebar col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3 padding-top">
+        <div class="padding-top">
+            <% include ../partials/ads %>
+        </div>
+    </div>
+
 </div>
 
+<% include ../partials/scripts %>
 </body>
 </html>
