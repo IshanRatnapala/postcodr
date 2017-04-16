@@ -2,6 +2,9 @@ html, body, input {
     font-family: 'Lato', sans-serif;
     text-align: center;
 }
+body {
+    padding: 5px;
+}
 h1, h2, h3 {
     font-family: 'Lato', sans-serif;
     text-align: left;
@@ -12,6 +15,8 @@ label {
 }
 a, a:hover, a:focus {
     color: inherit;
+}
+h1 a, h1 a:hover, h1 a:focus, h2 a, h2 a:hover, h2 a:focus {
     text-decoration: none;
 }
 
@@ -23,15 +28,17 @@ a, a:hover, a:focus {
     padding-top: 15%;
 }
 #postcode-display {
-    padding-top: 15%;
+    padding-top: 10%;
     display: none;
 }
 #error-container {
     padding-top: 15%;
-    display: none;
 }
 #postcode {
     padding: 5px;
+}
+#ads-wrapper {
+    padding-top: 25%;
 }
 
 /* INPUT */
@@ -40,7 +47,7 @@ input {
     display: block;
     width: 100%;
     border: none;
-    border-bottom: 1px solid #757575;
+    border-bottom: 1px solid #e4e4e4;
 }
 input:focus { outline: none; }
 .bar {
@@ -88,6 +95,7 @@ input:focus ~ .bar:before, input:focus ~ .bar:after { width: 50%; }
     color: #ffffff;
 }
 
+.crazy-huge { font-size: 4.5em; }
 .huge { font-size: 3em; }
 .semi-huge { font-size: 2.5em; }
 .big { font-size: 1.5em; }
@@ -96,6 +104,7 @@ input:focus ~ .bar:before, input:focus ~ .bar:after { width: 50%; }
 .suggestion { font-size: 1em; }
 
 @media only screen and (min-device-width: 375px) {
+    .crazy-huge { font-size: 4.5em; }
     .huge { font-size: 4em; }
     .semi-huge { font-size: 3em; }
     .big { font-size: 1.5em; }
@@ -112,9 +121,6 @@ input:focus ~ .bar:before, input:focus ~ .bar:after { width: 50%; }
     #postcode-display {
         padding-top: 4%;
     }
-    #error-container {
-        padding-top: 0;
-    }
 }
 @media only screen and (min-device-width: 768px) {
     .big { font-size: 1.7em; }
@@ -125,6 +131,7 @@ input:focus ~ .bar:before, input:focus ~ .bar:after { width: 50%; }
 }
 
 @media only screen and (min-device-width: 992px) {
+    .crazy-huge { font-size: 4.5em; }
     .huge { font-size: 4em; }
     .semi-huge { font-size: 3em; }
     .big { font-size: 2em; }
