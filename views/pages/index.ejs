@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%- include('../partials/head', { title: 'Search Train Timetable' }) %>
+    <%- include('../partials/head', { title: pageTitle }) %>
 </head>
 <body>
-<%- include('../partials/header', {pageName: ''}) %>
 
-<div class="container home">
+<div class="container home" itemscope itemtype="http://schema.org/PostalAddress">
+
     <div class="row">
-        <div class="col-xs-12 text-center">
-            <h1 class="text-uppercase huge">POSTCODES</h1>
-            <h2 class="text-uppercase semi-huge">SRI LANKA</h2>
+        <div>
+            <a href="/">
+                <h1 class="text-uppercase huge">POSTCODES</h1>
+            </a>
+            <a href="/postcode/<%= countryCode %>">
+                <h2 class="text-uppercase semi-huge" itemprop="addressCountry">SRI LANKA</h2>
+            </a>
         </div>
     </div>
 
@@ -20,13 +24,17 @@
 
                 <div id="select-city" class="form-group col-xs-12 normal">
                     <label for="city-search">Pick City</label>
-                    <input id="city-search" class="big" type="text" placeholder="<%- cities[0].placename %>" autocomplete="off" value="<%= query %>">
+                    <input id="city-search" class="big" type="text" placeholder="<%= placeholder %>" autocomplete="off" value="<%= city %>">
                     <span class="bar"></span>
                 </div>
 
                 <div id="postcode-display" class="col-xs-12 small">
-                    <span class="postcode-description">The postcode for </span><span id="city-name"></span>
-                    <div id="postcode" class="huge"></div>
+                    <span class="postcode-description">The postcode for </span>
+                    <span class="italic">
+                        <span id="city-name" itemprop="addressLocality"><%= city %></span>,
+                        <span id="region-name" itemprop="addressRegion"><%= region %></span>
+                    </span>
+                    <div id="postcode" class="huge" itemprop="postalCode"><%= postcode %></div>
                 </div>
                 <div id="error-container" class="col-xs-12 normal">
                     <div class="huge">:(</div>
@@ -35,7 +43,6 @@
 
                 <script>
                     var countryCode = "<%= countryCode %>";
-                    var cities = <%- JSON.stringify(cities) %>
                 </script>
 
             </div>
