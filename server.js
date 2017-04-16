@@ -13,12 +13,15 @@ app.get('/', (req, res) => {
 });
 
 app.get('/postcode/:countryCode', (req, res) => {
-    var countryCode = req.params.countryCode.toUpperCase();
+    var country = {
+        name: 'Sri Lanka',
+        code: req.params.countryCode
+    };
 
-    DB_ACTIONS.getFirstCityName(countryCode)
+    DB_ACTIONS.getFirstCityName(country.code)
         .then((data) => {
             res.render('pages/index.ejs', {
-                countryCode: countryCode.toLowerCase(),
+                country,
                 placeholder: data[0].placename,
                 city: '',
                 region: '',
@@ -28,7 +31,7 @@ app.get('/postcode/:countryCode', (req, res) => {
         })
         .catch((err) => {
             res.render('pages/404.ejs', {
-                countryCode: countryCode.toLowerCase(),
+                country,
                 message: err,
                 city: ''
             });
@@ -36,12 +39,15 @@ app.get('/postcode/:countryCode', (req, res) => {
 });
 
 app.get('/postcode/:countryCode/:city', (req, res) => {
-    var countryCode = req.params.countryCode.toUpperCase();
+    var country = {
+        name: 'Sri Lanka',
+        code: req.params.countryCode
+    };
 
-    DB_ACTIONS.findByCity(countryCode, req.params.city)
+    DB_ACTIONS.findByCity(country.code, req.params.city)
         .then((data) => {
             res.render('pages/index.ejs', {
-                countryCode: countryCode.toLowerCase(),
+                country,
                 placeholder: data.placename,
                 city: data.placename,
                 region: data.adminname2,
@@ -51,7 +57,7 @@ app.get('/postcode/:countryCode/:city', (req, res) => {
         })
         .catch((err) => {
             res.render('pages/404.ejs', {
-                countryCode: countryCode.toLowerCase(),
+                country,
                 message: err,
                 city: req.params.city
             });
@@ -59,8 +65,7 @@ app.get('/postcode/:countryCode/:city', (req, res) => {
 });
 
 app.get('/ajax/:countryCode', (req, res) => {
-    var countryCode = req.params.countryCode.toUpperCase();
-    DB_ACTIONS.getCities(countryCode)
+    DB_ACTIONS.getCities(req.params.countryCode)
         .then((data) => {
             res.header('Cache-Control', 'public, max-age=31557600');
             res.json(data);
@@ -68,6 +73,14 @@ app.get('/ajax/:countryCode', (req, res) => {
         .catch((err) => {
             res.send(err);
         });
+});
+
+app.use(function (req, res, next) {
+    res.render('pages/404.ejs', {
+        country: {},
+        message: '',
+        city: ''
+    });
 });
 
 app.listen(PORT, () => {

@@ -23,6 +23,9 @@ h1 a, h1 a:hover, h1 a:focus, h2 a, h2 a:hover, h2 a:focus {
 .italic {
     font-style: italic;
 }
+.text-uppercase {
+    text-transform: uppercase;
+}
 
 #select-city {
     padding-top: 15%;

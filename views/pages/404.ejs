@@ -12,10 +12,12 @@
             <h1 class="text-uppercase huge">
                 <a href="/">POSTCODES</a>
             </h1>
-            <h2 class="text-uppercase semi-huge">
-                <a href="/postcode/<%= countryCode %>">SRI LANKA</a>
-            </h2>
 
+            <% if (country.code) { %>
+            <h2 class="text-uppercase semi-huge">
+                <a href="/postcode/<%= country.code %>"><%= country.name %></a>
+            </h2>
+            <% } %>
         </div>
     </div>
 
@@ -43,6 +45,6 @@
 
 </div>
 
-<% include ../partials/scripts %>
+<% include ../partials/scripts-inline %>
 </body>
 </html>
