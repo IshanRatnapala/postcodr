@@ -92,6 +92,7 @@ input:focus ~ .bar:before, input:focus ~ .bar:after { width: 50%; }
 }
 @media only screen and (min-device-width: 375px) and (orientation: landscape){
     .semi-huge { font-size: 1.5em; }
+
     #select-city {
         padding-top: 0;
     }
@@ -103,15 +104,18 @@ input:focus ~ .bar:before, input:focus ~ .bar:after { width: 50%; }
     }
 }
 @media only screen and (min-device-width: 768px) {
-    .huge { font-size: 4em; }
-    .semi-huge { font-size: 3em; }
-    .big { font-size: 2em; }
-    .normal { font-size: 1.5em; }
-    .small { font-size: 1.2em; }
-    .suggestion { font-size: 1em; }
+    .big { font-size: 1.7em; }
 
     #select-city {
         padding-top: 20%;
     }
 }
 
+@media only screen and (min-device-width: 992px) {
+    .huge { font-size: 4em; }
+    .semi-huge { font-size: 3em; }
+    .big { font-size: 2em; }
+    .normal { font-size: 1.5em; }
+    .small { font-size: 1.2em; }
+    .suggestion { font-size: 1em; }
+}
