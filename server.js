@@ -54,6 +54,7 @@ app.get('/ajax/:countryCode', (req, res) => {
     var countryCode = req.params.countryCode.toUpperCase();
     DB_ACTIONS.getCities(countryCode)
         .then((data) => {
+            res.header('Cache-Control', 'public, max-age=31557600');
             res.json(data);
         })
         .catch((err) => {
