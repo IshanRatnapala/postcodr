@@ -65,8 +65,8 @@
                         dataType: 'json'
                     }).done(function (data) {
                         resolve(data)
-                    }).fail(function (err) {
-                        reject(err);
+                    }).fail(function (obj, msg) {
+                        reject(msg);
                     })
                 }
             });

@@ -12,7 +12,7 @@ module.exports = function (app) {
         });
 
         sitemap.add({
-            url: `https://postcode.world/postcode/lk`,
+            url: `https://postcode.world/lk`,
             changefreq: 'yearly',
             priority: 0.9
         });
@@ -22,7 +22,7 @@ module.exports = function (app) {
                 for (var i = 0; i < data.length; i++) {
                     var placename = encodeURIComponent(data[i].placename);
                     sitemap.add({
-                        url: `https://postcode.world/postcode/lk/${placename}`,
+                        url: `https://postcode.world/lk/${placename}`,
                         changefreq: 'yearly',
                         priority: 1
                     });

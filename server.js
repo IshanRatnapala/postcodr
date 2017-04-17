@@ -9,36 +9,21 @@ app.set('view-engine', 'ejs');
 app.use(express.static(__dirname + '/public', { maxAge: '5d' }));
 
 app.get('/', (req, res) => {
-    res.redirect('/postcode/lk');
+    res.redirect('/lk');
 });
 
-app.get('/postcode/:countryCode', (req, res) => {
-    var country = {
-        name: 'Sri Lanka',
-        code: req.params.countryCode
-    };
-
-    DB_ACTIONS.getFirstCityName(country.code)
+app.get('/ajax/:countryCode', (req, res) => {
+    DB_ACTIONS.getCities(req.params.countryCode)
         .then((data) => {
-            res.render('pages/index.ejs', {
-                country,
-                placeholder: data[0].placename,
-                city: '',
-                region: '',
-                postcode: '',
-                pageTitle: `Sri Lanka Postal Codes`
-            });
+            res.header('Cache-Control', 'public, max-age=31557600');
+            res.json(data);
         })
         .catch((err) => {
-            res.render('pages/404.ejs', {
-                country,
-                message: err,
-                city: ''
-            });
+            res.send(err);
         });
 });
 
-app.get('/postcode/:countryCode/:city', (req, res) => {
+app.get('/:countryCode/:city', (req, res) => {
     var country = {
         name: 'Sri Lanka',
         code: req.params.countryCode
@@ -64,14 +49,29 @@ app.get('/postcode/:countryCode/:city', (req, res) => {
         });
 });
 
-app.get('/ajax/:countryCode', (req, res) => {
-    DB_ACTIONS.getCities(req.params.countryCode)
+app.get('/:countryCode', (req, res) => {
+    var country = {
+        name: 'Sri Lanka',
+        code: req.params.countryCode
+    };
+
+    DB_ACTIONS.getFirstCityName(country.code)
         .then((data) => {
-            res.header('Cache-Control', 'public, max-age=31557600');
-            res.json(data);
+            res.render('pages/index.ejs', {
+                country,
+                placeholder: data[0].placename,
+                city: '',
+                region: '',
+                postcode: '',
+                pageTitle: `Sri Lanka Postal Codes`
+            });
         })
         .catch((err) => {
-            res.send(err);
+            res.render('pages/404.ejs', {
+                country,
+                message: err,
+                city: ''
+            });
         });
 });
 

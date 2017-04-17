@@ -8,7 +8,7 @@ $(function () {
         history.pushState(
             null,
             pickedCity.placename + ' | Sri Lanka Postal Codes',
-            '/postcode/' + countryCode.toLowerCase() + '/' + encodeURIComponent(pickedCity.placename.toLowerCase())
+            '/' + countryCode.toLowerCase() + '/' + encodeURIComponent(pickedCity.placename.toLowerCase())
         );
         /* since pushstate is not supported everywhere */
         document.title = pickedCity.placename.toUpperCase() + ' Postcode | Sri Lanka Postal Codes';
@@ -22,7 +22,7 @@ $(function () {
         history.pushState(
             null,
             'Sri Lanka Postal Codes',
-            '/postcode/' + countryCode.toLowerCase()
+            '/' + countryCode.toLowerCase()
         );
         /* since pushstate is not supported everywhere */
         document.title = 'Sri Lanka Postal Codes';
