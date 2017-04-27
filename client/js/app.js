@@ -66,7 +66,7 @@ $(function () {
             filterFromStart: true,
             autoComplete: true,
             dataName: 'areaName',
-            minChars: 1,
+            minChars: 0,
             maxHeight: '205px',
         });
 
