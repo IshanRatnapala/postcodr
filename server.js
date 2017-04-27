@@ -28,11 +28,17 @@ app.get('/ajax/:countryCode', (req, res) => {
 
 app.get('/:countryCode/:city', (req, res) => {
     var country = {
-        name: 'Sri Lanka',
+        name: '',
+        translation: '',
         code: req.params.countryCode
     };
 
-    DB_ACTIONS.findByCity(country.code, req.params.city)
+    DB_ACTIONS.getCountry(req.params.countryCode)
+        .then(function (data) {
+            country.name = data[0].countryName;
+            country.translation = data[0].postcodeTranslation;
+            return DB_ACTIONS.findByCity(country.code, req.params.city);
+        })
         .then((data) => {
             res.render('pages/index.ejs', {
                 country,
@@ -50,15 +56,22 @@ app.get('/:countryCode/:city', (req, res) => {
                 city: req.params.city
             });
         });
+
+
 });
 
 app.get('/:countryCode', (req, res) => {
     var country = {
-        name: 'Sri Lanka',
+        name: '',
+        translation: '',
         code: req.params.countryCode
     };
-
-    DB_ACTIONS.getFirstCityName(country.code)
+    DB_ACTIONS.getCountry(req.params.countryCode)
+        .then(function (data) {
+            country.name = data[0].countryName;
+            country.translation = data[0].postcodeTranslation;
+            return DB_ACTIONS.getFirstCityName(country.code);
+        })
         .then((data) => {
             res.render('pages/index.ejs', {
                 country,

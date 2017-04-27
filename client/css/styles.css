@@ -141,4 +141,8 @@ input:focus ~ .bar:before, input:focus ~ .bar:after { width: 50%; }
     .normal { font-size: 1.5em; }
     .small { font-size: 1.2em; }
     .suggestion { font-size: 1em; }
+
+    #postcode-display {
+        padding-top: 10%;
+    }
 }
