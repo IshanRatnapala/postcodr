@@ -1,17 +1,17 @@
 $(function () {
     function setPostcode (pickedCity) {
         $('#error-container').hide();
-        $('#city-name').text(pickedCity.placename);
-        $('#region-name').text(pickedCity.region);
-        $('#postcode').text(pickedCity.postalcode);
+        $('#city-name').text(pickedCity.areaName);
+        $('#region-name').text(pickedCity.address3);
+        $('#postcode').text(pickedCity.postcode);
         $('#postcode-display').show();
         history.pushState(
             null,
-            pickedCity.placename + ' | Sri Lanka Postal Codes',
-            '/' + countryCode.toLowerCase() + '/' + encodeURIComponent(pickedCity.placename.toLowerCase())
+            pickedCity.areaName + ' | Sri Lanka Postal Codes',
+            '/' + countryCode.toLowerCase() + '/' + encodeURIComponent(pickedCity.areaName.toLowerCase())
         );
         /* since pushstate is not supported everywhere */
-        document.title = pickedCity.placename.toUpperCase() + ' Postcode | Sri Lanka Postal Codes';
+        document.title = pickedCity.areaName.toUpperCase() + ' Postcode | Sri Lanka Postal Codes';
     }
 
     function clearPostcode () {
@@ -31,7 +31,7 @@ $(function () {
     $('#city-search')
         .on('selected.autocompletr', function (event, selectedValue, dataSource) {
             var pickedCity = _.filter(dataSource, function (obj) {
-                return obj.placename === selectedValue;
+                return obj.areaName === selectedValue;
             });
             if (pickedCity.length) {
                 setPostcode(pickedCity[0]);
@@ -49,7 +49,7 @@ $(function () {
             if (inputValue.length) {
                 $(this).val(inputValue);
                 var pickedCity = _.filter(dataSource, function (obj) {
-                    return obj.placename === inputValue;
+                    return obj.areaName === inputValue;
                 });
                 if (pickedCity[0]) {
                     setPostcode(pickedCity[0]);
@@ -65,7 +65,7 @@ $(function () {
             closeOnBlur: true,
             filterFromStart: true,
             autoComplete: true,
-            dataName: 'placename',
+            dataName: 'areaName',
             minChars: 1,
             maxHeight: '205px',
         });

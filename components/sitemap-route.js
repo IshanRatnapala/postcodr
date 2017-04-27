@@ -20,9 +20,9 @@ module.exports = function (app) {
         DB_ACTIONS.getCities('LK')
             .then((data) => {
                 for (var i = 0; i < data.length; i++) {
-                    var placename = encodeURIComponent(data[i].placename);
+                    var areaName = encodeURIComponent(data[i].areaName);
                     sitemap.add({
-                        url: `https://postcode.world/lk/${placename}`,
+                        url: `https://postcode.world/lk/${areaName}`,
                         changefreq: 'yearly',
                         priority: 1
                     });

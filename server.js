@@ -33,11 +33,11 @@ app.get('/:countryCode/:city', (req, res) => {
         .then((data) => {
             res.render('pages/index.ejs', {
                 country,
-                placeholder: data.placename,
-                city: data.placename,
-                region: data.adminname2,
-                postcode: data.postalcode,
-                pageTitle: `${data.placename.toUpperCase()} Postcode | Sri Lanka Postal Codes`
+                placeholder: data.areaName,
+                city: data.areaName,
+                region: data.address3,
+                postcode: data.postcode,
+                pageTitle: `${data.areaName.toUpperCase()} Postcode | Sri Lanka Postal Codes`
             });
         })
         .catch((err) => {
@@ -59,7 +59,7 @@ app.get('/:countryCode', (req, res) => {
         .then((data) => {
             res.render('pages/index.ejs', {
                 country,
-                placeholder: data[0].placename,
+                placeholder: data[0].areaName,
                 city: '',
                 region: '',
                 postcode: '',
