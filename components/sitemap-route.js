@@ -1,4 +1,5 @@
 const sm = require('sitemap');
+const DB_ACTIONS = require('../db');
 
 module.exports = function (app) {
     app.get('/sitemap.xml', function (req, res) {

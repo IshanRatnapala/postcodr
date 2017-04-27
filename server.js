@@ -8,6 +8,9 @@ const production = require('./components/production')(app);
 app.set('view-engine', 'ejs');
 app.use(express.static(__dirname + '/public', { maxAge: '5d' }));
 
+/* Generate Sitemap */
+// require('./components/sitemap-route')(app);
+
 app.get('/', (req, res) => {
     res.redirect('/lk');
 });
