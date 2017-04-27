@@ -5,7 +5,7 @@
     var defaults = {
         dataSource: null,
         closeOnBlur: true,
-        filterFromStart: true,
+        filterFromStart: true, //TODO highlight the matched chars in the dropdown
         maxHeight: '300px',
         autoComplete: false,
         dataName: null,
