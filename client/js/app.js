@@ -63,7 +63,7 @@ $(function () {
         .autocompletr({
             dataSource: '/ajax/' + countryCode,
             closeOnBlur: true,
-            filterFromStart: false,
+            filterFromStart: true,
             autoComplete: true,
             dataName: 'areaName',
             minChars: 0,
